@@ -1,0 +1,190 @@
+ion-title {
+  font-family: Carafont;
+  font-size: 2.4em;
+}
+
+.carafont {
+  font-family: Carafont;
+  display: block;
+}
+
+.question {
+  font-size: 1.5em;
+}
+
+.nightshop-label {
+  font-size: 2.5em;
+}
+
+.hero-can {
+  transition: filter 0.3s ease;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+}
+
+ion-segment {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.segment-name {
+  font-family: Carafont;
+  font-size: 1.1em;
+}
+
+.segment-price {
+  font-size: 0.85em;
+}
+
+.abv-line {
+  margin-top: 2px;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+ion-input {
+  border: solid #c44026 2px;
+  border-radius: 8px;
+  /* Kill Ionic's green/red validity underline; the red border is our focus style */
+  --highlight-height: 0;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --highlight-color-invalid: transparent;
+  margin-top: 8px;
+  --padding-start: 10px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  background: white;
+}
+
+.result-row {
+  padding-top: 14px;
+}
+
+.input-error {
+  color: var(--ion-color-primary);
+  font-size: 1.15em;
+  margin-top: 10px;
+}
+
+/* The diagonal red label from the can, repurposed as the result banner */
+.result-banner {
+  display: inline-block;
+  background: var(--ion-color-primary);
+  color: white;
+  font-size: 1.9em;
+  padding: 6px 28px;
+  transform: rotate(-3deg);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.rank-badge {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  background: var(--ion-color-secondary);
+  color: white;
+  font-size: 1.2em;
+  padding: 3px 18px;
+  margin-top: 14px;
+  transform: rotate(2deg);
+  border-radius: 999px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.crate-line {
+  margin-top: 12px;
+  font-size: 1.2em;
+}
+
+.gag-stats {
+  margin-top: 16px;
+}
+
+.gag-stat {
+  font-size: 0.85em;
+  font-style: italic;
+  opacity: 0.75;
+  margin-top: 3px;
+}
+
+.pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.pyramid-row {
+  display: flex;
+  justify-content: center;
+
+  img {
+    display: block;
+  }
+
+  &.leftover {
+    margin-top: 14px;
+    align-items: center;
+  }
+}
+
+.leftover-note {
+  display: inline;
+  margin-left: 8px;
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+.tip-jar {
+  text-decoration: none;
+}
+
+.disclaimer {
+  font-size: 0.7em;
+  opacity: 0.55;
+  margin-top: 4px;
+}
+
+.digit-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 4px 8px;
+}
+
+.body {
+  min-height: 100%;
+  color: black;
+  /* Cream base with the can's thin gold pinstripes */
+  background-color: #faf5e9;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 10px,
+    rgba(167, 150, 94, 0.13) 10px,
+    rgba(167, 150, 94, 0.13) 12px
+  );
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &.nightshop {
+    background-color: #0d0c0a;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 10px,
+      rgba(167, 150, 94, 0.08) 10px,
+      rgba(167, 150, 94, 0.08) 12px
+    );
+    color: white;
+
+    ion-segment-button {
+      --color: #cccccc;
+    }
+
+    ion-input {
+      background: #1a1813;
+    }
+  }
+}

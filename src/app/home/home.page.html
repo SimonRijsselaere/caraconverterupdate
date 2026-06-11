@@ -1,0 +1,161 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title class="ion-text-center">CaraConverter</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleNightshop()" aria-label="Toggle nightshop mode">
+        <ion-icon slot="icon-only" [name]="nightshop() ? 'sunny' : 'moon'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="body" [class.nightshop]="nightshop()">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <img
+          class="hero-can"
+          src="assets/carapils.png"
+          [style.filter]="selectedBeer().canFilter"
+          alt="Cara can"
+          width="110"
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center ion-text-center">
+      <ion-col size="12" size-md="8">
+        <ion-segment [value]="selectedBeerId()" (ionChange)="selectBeer($event.detail.value)">
+          @for (b of beers(); track b.id) {
+            <ion-segment-button [value]="b.id">
+              <ion-label class="segment-name">{{ b.name }}</ion-label>
+              <ion-label class="segment-price">
+                €{{ (nightshop() ? b.nightshopPrice : b.price).toFixed(2) }}
+              </ion-label>
+            </ion-segment-button>
+          }
+        </ion-segment>
+        <div class="abv-line">{{ selectedBeer().abv }}% vol — 33cl</div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center ion-text-center ion-padding-horizontal">
+      <ion-col size="12">
+        <form (ngSubmit)="calculateCara()">
+          @if (nightshop()) {
+            <ion-label class="carafont nightshop-label">Nightshop Mode</ion-label>
+          }
+          <ion-label class="carafont question">how much money do you have?</ion-label>
+          <ion-input
+            [(ngModel)]="inputValue"
+            (ngModelChange)="onMoneyInput()"
+            name="money"
+            inputmode="decimal"
+            clearInput="true"
+            aria-label="Amount of money in euro"
+          >
+            <ion-icon slot="start" name="logo-euro" aria-hidden="true"></ion-icon>
+          </ion-input>
+          @if (inputError(); as err) {
+            <div class="input-error carafont">{{ err }}</div>
+          }
+        </form>
+      </ion-col>
+    </ion-row>
+
+    @if (caraCount() !== null) {
+      <ion-row class="ion-justify-content-center ion-text-center ion-padding-horizontal result-row">
+        <ion-col size="12">
+          <div class="result-banner carafont">
+            {{ format(caraCount()!) }} {{ selectedBeer().resultName }} · {{ format(litres()!) }}L
+          </div>
+          @if (rank(); as r) {
+            <div class="rank-badge carafont">{{ r }}</div>
+          }
+          @if (crates(); as c) {
+            <div class="crate-line carafont">
+              = {{ format(c.crates) }} {{ c.crates === 1 ? 'crate' : 'crates' }} of 24
+              @if (c.loose > 0) {
+                + {{ c.loose }} loose
+              }
+              @if (c.total > caraCount()!) {
+                ({{ format(c.total) }} cans total — crates are cheaper!)
+              }
+            </div>
+          }
+          @if (gagStats().length > 0) {
+            <div class="gag-stats">
+              @for (stat of gagStats(); track stat) {
+                <div class="gag-stat">{{ stat }}</div>
+              }
+            </div>
+          }
+          <ion-button fill="outline" size="small" class="ion-margin-top" (click)="shareResult()">
+            <ion-icon slot="start" name="share-social"></ion-icon>
+            Share
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center ion-text-center">
+        <ion-col size="12">
+          @if (pyramid(); as p) {
+            <div class="pyramid">
+              @for (row of p.rows; track $index) {
+                <div class="pyramid-row">
+                  @for (can of row; track $index) {
+                    <img
+                      src="assets/carapils-small.png"
+                      [style.filter]="selectedBeer().canFilter"
+                      [style.width.px]="p.canWidth"
+                      alt=""
+                    />
+                  }
+                </div>
+              }
+              @if (p.leftover.length > 0) {
+                <div class="pyramid-row leftover">
+                  @for (can of p.leftover; track $index) {
+                    <img
+                      src="assets/carapils-small.png"
+                      [style.filter]="selectedBeer().canFilter"
+                      [style.width.px]="p.canWidth"
+                      alt=""
+                    />
+                  }
+                  <span class="leftover-note carafont">for the next pyramid…</span>
+                </div>
+              }
+            </div>
+          }
+          @if (digitPyramid().length > 0) {
+            <div class="pyramid">
+              @for (row of digitPyramid(); track $index) {
+                <div class="pyramid-row">
+                  @for (group of row; track group) {
+                    <div class="digit-group">
+                      <img src="assets/carapils-small.png" [style.filter]="selectedBeer().canFilter" alt="" height="30" />
+                      <span>x{{ format(group) }}</span>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </ion-col>
+      </ion-row>
+    }
+
+    <ion-row class="ion-justify-content-center ion-text-center ion-padding-top">
+      <ion-col size="12">
+        <a class="tip-jar" [href]="tipJarUrl" target="_blank" rel="noopener">
+          <ion-button fill="clear" size="small">
+            <ion-icon slot="start" name="beer"></ion-icon>
+            Buy me a Cara (€0.39)
+          </ion-button>
+        </a>
+        <div class="disclaimer">Bier met liefde gebrouwen, drink je met verstand.</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
