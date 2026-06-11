@@ -9,8 +9,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-grid class="body" fixed [class.nightshop]="nightshop()">
+<ion-content [class.nightshop]="nightshop()">
+  <ion-grid class="body" fixed>
     <ion-row>
       <ion-col class="ion-text-center">
         <img
@@ -24,7 +24,7 @@
     </ion-row>
 
     <ion-row class="ion-justify-content-center ion-text-center">
-      <ion-col size="12" size-md="8">
+      <ion-col size="12">
         <ion-segment [value]="selectedBeerId()" (ionChange)="selectBeer($event.detail.value)">
           @for (b of beers(); track b.id) {
             <ion-segment-button [value]="b.id">

@@ -1,3 +1,29 @@
+ion-content {
+  --background: #faf5e9 repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 10px,
+    rgba(167, 150, 94, 0.13) 10px,
+    rgba(167, 150, 94, 0.13) 12px
+  );
+
+  &.nightshop {
+    --background: #0d0c0a repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 10px,
+      rgba(167, 150, 94, 0.08) 10px,
+      rgba(167, 150, 94, 0.08) 12px
+    );
+    color: white;
+  }
+}
+
+ion-toolbar {
+  --background: #a7965e;
+  --color: #ffffff;
+}
+
 ion-title {
   font-family: Carafont;
   font-size: 2.4em;
@@ -157,34 +183,19 @@ ion-input {
   min-height: 100%;
   text-align: center;
   color: black;
-  /* Cream base with the can's thin gold pinstripes */
-  background-color: #faf5e9;
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent 10px,
-    rgba(167, 150, 94, 0.13) 10px,
-    rgba(167, 150, 94, 0.13) 12px
-  );
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: color 0.3s ease;
+}
 
-  &.nightshop {
-    background-color: #0d0c0a;
-    background-image: repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 10px,
-      rgba(167, 150, 94, 0.08) 10px,
-      rgba(167, 150, 94, 0.08) 12px
-    );
+ion-content.nightshop {
+  .body {
     color: white;
+  }
 
-    ion-segment-button {
-      --color: #cccccc;
-    }
+  ion-segment-button {
+    --color: #cccccc;
+  }
 
-    ion-input {
-      background: #1a1813;
-    }
+  ion-input {
+    background: #1a1813;
   }
 }
