@@ -21,6 +21,15 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
+/* Toolbar gold — must be global so Angular scoping doesn't block it */
+ion-toolbar {
+  --background: #a7965e;
+  --color: #ffffff;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+}
+
 /* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";

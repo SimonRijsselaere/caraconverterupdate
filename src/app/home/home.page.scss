@@ -19,14 +19,17 @@ ion-content {
   }
 }
 
-ion-toolbar {
-  --background: #a7965e;
-  --color: #ffffff;
+.toolbar-row {
+  min-height: 56px;
 }
 
-ion-title {
-  font-family: Carafont;
+.app-title {
   font-size: 2.4em;
+  color: white;
+}
+
+.nightshop-btn {
+  --color: white;
 }
 
 .carafont {
