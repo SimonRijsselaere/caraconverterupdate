@@ -45,7 +45,7 @@ const RANKS: { min: number; title: string }[] = [
 ];
 
 /** Your Ko-fi / PayPal page — the "Buy me a Cara" button links here. */
-const TIP_JAR_URL = 'https://ko-fi.com/';
+const TIP_JAR_URL = 'https://ko-fi.com/caraconverter';
 
 @Component({
   selector: 'app-home',
