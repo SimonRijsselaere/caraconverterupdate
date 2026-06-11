@@ -25,9 +25,27 @@
 ion-toolbar {
   --background: #a7965e;
   --color: #ffffff;
-  --padding-start: 0;
-  --padding-end: 0;
+  --padding-start: 16px;
+  --padding-end: 16px;
   --inner-padding-end: 0;
+
+  /* Match ion-grid fixed breakpoints so title/button align with content */
+  @media (min-width: 576px) {
+    --padding-start: max(16px, calc((100% - 540px) / 2));
+    --padding-end: max(16px, calc((100% - 540px) / 2));
+  }
+  @media (min-width: 768px) {
+    --padding-start: max(16px, calc((100% - 720px) / 2));
+    --padding-end: max(16px, calc((100% - 720px) / 2));
+  }
+  @media (min-width: 992px) {
+    --padding-start: max(16px, calc((100% - 960px) / 2));
+    --padding-end: max(16px, calc((100% - 960px) / 2));
+  }
+  @media (min-width: 1200px) {
+    --padding-start: max(16px, calc((100% - 1140px) / 2));
+    --padding-end: max(16px, calc((100% - 1140px) / 2));
+  }
 }
 
 /* Optional CSS utils that can be commented out */
