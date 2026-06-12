@@ -2,11 +2,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
-  IonButtons,
   IonCol,
   IonContent,
   IonGrid,
-  IonHeader,
   IonIcon,
   IonInput,
   IonLabel,
@@ -14,8 +12,6 @@ import {
   IonSegment,
   IonSegmentButton,
   IonText,
-  IonTitle,
-  IonToolbar,
   ToastController,
 } from '@ionic/angular/standalone';
 import { Share } from '@capacitor/share';
@@ -54,11 +50,9 @@ const TIP_JAR_URL = 'https://ko-fi.com/caraconverter';
   imports: [
     FormsModule,
     IonButton,
-    IonButtons,
     IonCol,
     IonContent,
     IonGrid,
-    IonHeader,
     IonIcon,
     IonInput,
     IonLabel,
@@ -66,8 +60,6 @@ const TIP_JAR_URL = 'https://ko-fi.com/caraconverter';
     IonSegment,
     IonSegmentButton,
     IonText,
-    IonTitle,
-    IonToolbar,
   ],
 })
 export class HomePage {

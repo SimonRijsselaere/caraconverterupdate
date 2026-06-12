@@ -19,9 +19,26 @@ ion-content {
   }
 }
 
+.app-header {
+  background: #a7965e;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  ion-grid {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  ion-row {
+    min-height: 56px;
+  }
+}
+
 .app-title {
   font-size: 2.4em;
   color: white;
+  line-height: 1;
 }
 
 .nightshop-btn {
