@@ -1,15 +1,9 @@
 <ion-content [class.nightshop]="nightshop()">
-  <div class="app-header">
-    <ion-grid fixed>
-      <ion-row class="ion-align-items-center">
-        <ion-col><span class="app-title carafont">CaraConverter</span></ion-col>
-        <ion-col size="auto">
-          <ion-button (click)="toggleNightshop()" fill="clear" class="nightshop-btn" aria-label="Toggle nightshop mode">
-            <ion-icon slot="icon-only" [name]="nightshop() ? 'sunny' : 'moon'"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <div class="app-header" style="background:#a7965e;display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:0 16px;position:sticky;top:0;z-index:100">
+    <span class="app-title carafont" style="color:white;font-size:2.2em">CaraConverter</span>
+    <ion-button (click)="toggleNightshop()" fill="clear" style="--color:white" aria-label="Toggle nightshop mode">
+      <ion-icon slot="icon-only" [name]="nightshop() ? 'sunny' : 'moon'"></ion-icon>
+    </ion-button>
   </div>
   <ion-grid class="body" fixed>
     <ion-row>
