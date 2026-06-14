@@ -69,10 +69,7 @@
           }
           @if (crates(); as c) {
             <div class="crate-line carafont">
-              = {{ format(c.crates) }} {{ c.crates === 1 ? 'crate' : 'crates' }} of 24
-              @if (c.loose > 0) {
-                + {{ c.loose }} loose
-              }
+              = {{ format(c.crates) }} {{ c.crates === 1 ? 'crate' : 'crates' }} of 24@if (c.loose > 0) { + {{ c.loose }} loose}
               @if (c.total > caraCount()!) {
                 ({{ format(c.total) }} cans total — crates are cheaper!)
               }
