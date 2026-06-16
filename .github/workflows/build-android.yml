@@ -62,7 +62,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           cd android
-          ./gradlew bundleRelease \
+          ./gradlew bundleRelease --stacktrace --no-daemon \
             -Pandroid.injected.signing.store.file=${{ github.workspace }}/android/app/caraconverter-upload.jks \
             -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
             -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
