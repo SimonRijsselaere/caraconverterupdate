@@ -34,3 +34,5 @@ npm-debug.log*
 /.claude/
 /*.jks
 /*.keystore
+keystore-base64.txt
+/android/.idea

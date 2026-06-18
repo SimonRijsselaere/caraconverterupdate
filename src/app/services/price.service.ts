@@ -9,7 +9,11 @@ import { Beer, PriceConfig } from '../models/beer';
  */
 const REMOTE_PRICES_URL: string = '';
 
-/** Last verified: classic can €0.39 (2024). Crate prices are estimates — fix via remote config. */
+/**
+ * Last verified: classic can €0.39 (Colruyt, 2024). Crate prices are estimates — fix via remote config.
+ * Nightshop prices: Cara Pils 33cl runs €0.95–1.20 in Ghent nachtwinkels (Nachtwacht €0.95,
+ * Aan Huis €1.20, Raja ~€0.95). Others scaled ~2.5× off Colruyt shelf price.
+ */
 const DEFAULT_BEERS: Beer[] = [
   {
     id: 'pils',
@@ -17,7 +21,7 @@ const DEFAULT_BEERS: Beer[] = [
     resultName: "Cara's",
     abv: 4.4,
     price: 0.39,
-    nightshopPrice: 0.6,
+    nightshopPrice: 1.0,
     cratePrice: null,
     canFilter: 'none',
   },
@@ -27,7 +31,7 @@ const DEFAULT_BEERS: Beer[] = [
     resultName: "Cara Blond's",
     abv: 8.5,
     price: 0.52,
-    nightshopPrice: 0.8,
+    nightshopPrice: 1.3,
     cratePrice: null,
     canFilter: 'sepia(0.5) saturate(1.6) brightness(1.08)',
   },
@@ -37,7 +41,7 @@ const DEFAULT_BEERS: Beer[] = [
     resultName: "Cara Rouge's",
     abv: 7.5,
     price: 0.69,
-    nightshopPrice: 1.0,
+    nightshopPrice: 1.6,
     cratePrice: null,
     canFilter: 'hue-rotate(-35deg) saturate(1.8)',
   },
@@ -47,7 +51,7 @@ const DEFAULT_BEERS: Beer[] = [
     resultName: "Cara 0.0's",
     abv: 0,
     price: 0.49,
-    nightshopPrice: 0.75,
+    nightshopPrice: 1.2,
     cratePrice: null,
     canFilter: 'grayscale(0.85) brightness(1.12)',
   },
