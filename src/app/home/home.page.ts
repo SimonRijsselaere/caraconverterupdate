@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonButton,
@@ -11,7 +11,6 @@ import {
   IonRow,
   IonSegment,
   IonSegmentButton,
-  IonText,
   ToastController,
 } from '@ionic/angular/standalone';
 import { Share } from '@capacitor/share';
@@ -59,7 +58,6 @@ const TIP_JAR_URL = 'https://ko-fi.com/caraconverter';
     IonRow,
     IonSegment,
     IonSegmentButton,
-    IonText,
   ],
 })
 export class HomePage {
@@ -74,6 +72,8 @@ export class HomePage {
   readonly nightshop = signal(false);
   readonly amount = signal<number | null>(null);
   readonly inputError = signal<string | null>(null);
+
+  private readonly content = viewChild(IonContent);
 
   readonly selectedBeer = computed(
     () => this.beers().find((b) => b.id === this.selectedBeerId()) ?? this.beers()[0],
@@ -188,6 +188,50 @@ export class HomePage {
 
   constructor() {
     addIcons({ logoEuro, moon, shareSocial, sunny, beer });
+
+    // Auto-scroll the result into view the moment it first appears. Live typing
+    // (onMoneyInput) renders the result below the input, where it sits under the
+    // keyboard on phones. Fire only on the no-result → result transition so it
+    // doesn't yank the page on every keystroke once the result is already showing.
+    let hadResult = false;
+    effect(() => {
+      const hasResult = this.caraCount() !== null;
+      if (hasResult && !hadResult) {
+        this.scrollResultIntoView();
+      }
+      hadResult = hasResult;
+    });
+  }
+
+  // ion-content scrolls via its own shadow-DOM scroll element, so a plain
+  // scrollIntoView() on the slotted banner does nothing. Drive the scroll
+  // element directly and stop just below the sticky header.
+  private async scrollResultIntoView() {
+    const content = this.content();
+    if (!content) {
+      return;
+    }
+    // Let Angular render the result row before we measure it.
+    setTimeout(async () => {
+      const banner = document.querySelector('.result-banner');
+      if (!banner) {
+        return;
+      }
+      const scrollEl = await content.getScrollElement();
+      const bannerRect = banner.getBoundingClientRect();
+      const scrollRect = scrollEl.getBoundingClientRect();
+      const HEADER = 70; // clear the 56px sticky header + a little breathing room
+      const topInView = bannerRect.top - scrollRect.top;
+      // Already comfortably visible (e.g. a tall desktop window)? Leave it be —
+      // no point yanking the page when the result is right there.
+      if (topInView >= HEADER && bannerRect.bottom <= scrollRect.top + scrollEl.clientHeight) {
+        return;
+      }
+      // Smooth scrolling (scrollTo({behavior:'smooth'}) or scroll-behavior:smooth)
+      // is a no-op on Ionic's scroll element in some webviews; an instant
+      // scrollTop assignment is reliable everywhere.
+      scrollEl.scrollTop = Math.max(0, scrollEl.scrollTop + topInView - HEADER);
+    }, 80);
   }
 
   format(value: number): string {
@@ -220,12 +264,11 @@ export class HomePage {
     this.amount.set(money);
   }
 
-  // Enter key: scroll the result into view (it can sit below the fold on phones).
+  // Enter key: re-scroll the result into view (the effect only fires on the
+  // first appearance, so this covers editing the amount after a result shows).
   calculateCara() {
     if (this.amount() !== null) {
-      setTimeout(() => {
-        document.querySelector('.result-banner')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 80);
+      this.scrollResultIntoView();
     }
   }
 
