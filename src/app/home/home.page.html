@@ -10,7 +10,7 @@
       <ion-col class="ion-text-center">
         <img
           class="hero-can"
-          src="assets/carapils.png"
+          [src]="'assets/' + selectedBeer().image + '.png'"
           [style.filter]="selectedBeer().canFilter"
           alt="Cara can"
           width="110"
@@ -97,7 +97,7 @@
                 <div class="pyramid-row">
                   @for (can of row; track $index) {
                     <img
-                      src="assets/carapils-small.png"
+                      [src]="'assets/' + selectedBeer().image + '-small.png'"
                       [style.filter]="selectedBeer().canFilter"
                       [style.width.px]="p.canWidth"
                       alt=""
@@ -109,7 +109,7 @@
                 <div class="pyramid-row leftover">
                   @for (can of p.leftover; track $index) {
                     <img
-                      src="assets/carapils-small.png"
+                      [src]="'assets/' + selectedBeer().image + '-small.png'"
                       [style.filter]="selectedBeer().canFilter"
                       [style.width.px]="p.canWidth"
                       alt=""
@@ -126,7 +126,7 @@
                 <div class="pyramid-row">
                   @for (group of row; track group) {
                     <div class="digit-group">
-                      <img src="assets/carapils-small.png" [style.filter]="selectedBeer().canFilter" alt="" height="30" />
+                      <img [src]="'assets/' + selectedBeer().image + '-small.png'" [style.filter]="selectedBeer().canFilter" alt="" height="30" />
                       <span>x{{ format(group) }}</span>
                     </div>
                   }

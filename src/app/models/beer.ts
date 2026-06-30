@@ -10,7 +10,9 @@ export interface Beer {
   nightshopPrice: number;
   /** Price of a 24-can crate; null = no crate discount known, optimizer just groups per 24 */
   cratePrice: number | null;
-  /** CSS filter applied to the can image to fake the variant's artwork */
+  /** Base asset name for the can artwork; renders assets/{image}.png and assets/{image}-small.png */
+  image: string;
+  /** CSS filter applied to the can image, e.g. to tint a variant that reuses another can's art ('none' when it has its own image) */
   canFilter: string;
 }
 

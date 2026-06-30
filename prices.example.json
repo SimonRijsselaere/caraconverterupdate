@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-10",
+  "updated": "2026-06-30",
   "beers": [
     {
       "id": "pils",
@@ -7,8 +7,9 @@
       "resultName": "Cara's",
       "abv": 4.4,
       "price": 0.39,
-      "nightshopPrice": 0.6,
+      "nightshopPrice": 1.0,
       "cratePrice": null,
+      "image": "carapils",
       "canFilter": "none"
     },
     {
@@ -17,9 +18,10 @@
       "resultName": "Cara Blond's",
       "abv": 8.5,
       "price": 0.52,
-      "nightshopPrice": 0.8,
+      "nightshopPrice": 1.3,
       "cratePrice": null,
-      "canFilter": "sepia(0.5) saturate(1.6) brightness(1.08)"
+      "image": "carablond",
+      "canFilter": "none"
     },
     {
       "id": "rouge",
@@ -27,9 +29,10 @@
       "resultName": "Cara Rouge's",
       "abv": 7.5,
       "price": 0.69,
-      "nightshopPrice": 1.0,
+      "nightshopPrice": 1.6,
       "cratePrice": null,
-      "canFilter": "hue-rotate(-35deg) saturate(1.8)"
+      "image": "cararouge",
+      "canFilter": "none"
     },
     {
       "id": "zero",
@@ -37,9 +40,10 @@
       "resultName": "Cara 0.0's",
       "abv": 0,
       "price": 0.49,
-      "nightshopPrice": 0.75,
+      "nightshopPrice": 1.2,
       "cratePrice": null,
-      "canFilter": "grayscale(0.85) brightness(1.12)"
+      "image": "cara00",
+      "canFilter": "none"
     }
   ]
 }
