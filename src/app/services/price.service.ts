@@ -29,7 +29,7 @@ const DEFAULT_BEERS: Beer[] = [
   {
     id: 'blond',
     name: 'Blond',
-    resultName: "Cara Blond's",
+    resultName: 'Cara Blondjes',
     abv: 8.5,
     price: 0.52,
     nightshopPrice: 1.3,
@@ -40,7 +40,7 @@ const DEFAULT_BEERS: Beer[] = [
   {
     id: 'rouge',
     name: 'Rouge',
-    resultName: "Cara Rouge's",
+    resultName: 'Cara Rouges',
     abv: 7.5,
     price: 0.69,
     nightshopPrice: 1.6,
