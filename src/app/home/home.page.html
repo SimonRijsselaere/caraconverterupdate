@@ -1,7 +1,7 @@
 <ion-content [class.nightshop]="nightshop()">
   <div class="app-header" style="background:#a7965e;display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:0 16px;position:sticky;top:0;z-index:100">
     <span class="app-title carafont" style="color:white;font-size:2.2em">CaraConverter</span>
-    <ion-button (click)="toggleNightshop()" fill="clear" style="--color:white" aria-label="Toggle nightshop mode">
+    <ion-button (click)="toggleNightshop()" fill="clear" style="--color:white" aria-label="Nachtwinkel-modus wisselen">
       <ion-icon slot="icon-only" [name]="nightshop() ? 'sunny' : 'moon'"></ion-icon>
     </ion-button>
   </div>
@@ -10,7 +10,7 @@
       <ion-col class="ion-text-center">
         <img
           class="hero-can"
-          src="assets/carapils.png"
+          [src]="'assets/' + selectedBeer().image + '.png'"
           [style.filter]="selectedBeer().canFilter"
           alt="Cara can"
           width="110"
@@ -38,16 +38,16 @@
       <ion-col size="12">
         <form (ngSubmit)="calculateCara()">
           @if (nightshop()) {
-            <ion-label class="carafont nightshop-label">Nightshop Mode</ion-label>
+            <ion-label class="carafont nightshop-label">Nachtwinkel-modus</ion-label>
           }
-          <ion-label class="carafont question">how much money do you have?</ion-label>
+          <ion-label class="carafont question">hoeveel geld heb je?</ion-label>
           <ion-input
             [(ngModel)]="inputValue"
             (ngModelChange)="onMoneyInput()"
             name="money"
             inputmode="decimal"
             clearInput="true"
-            aria-label="Amount of money in euro"
+            aria-label="Bedrag in euro"
           >
             <ion-icon slot="start" name="logo-euro" aria-hidden="true"></ion-icon>
           </ion-input>
@@ -69,9 +69,9 @@
           }
           @if (crates(); as c) {
             <div class="crate-line carafont">
-              = {{ format(c.crates) }} {{ c.crates === 1 ? 'crate' : 'crates' }} of 24@if (c.loose > 0) { + {{ c.loose }} loose}
+              = {{ format(c.crates) }} {{ c.crates === 1 ? 'bak' : 'bakken' }} van 24@if (c.loose > 0) { + {{ c.loose }} los}
               @if (c.total > caraCount()!) {
-                ({{ format(c.total) }} cans total — crates are cheaper!)
+                ({{ format(c.total) }} blikjes in totaal — bakken zijn goedkoper!)
               }
             </div>
           }
@@ -84,7 +84,7 @@
           }
           <ion-button fill="outline" size="small" class="ion-margin-top" (click)="shareResult()">
             <ion-icon slot="start" name="share-social"></ion-icon>
-            Share
+            Deel
           </ion-button>
         </ion-col>
       </ion-row>
@@ -97,7 +97,7 @@
                 <div class="pyramid-row">
                   @for (can of row; track $index) {
                     <img
-                      src="assets/carapils-small.png"
+                      [src]="'assets/' + selectedBeer().image + '-small.png'"
                       [style.filter]="selectedBeer().canFilter"
                       [style.width.px]="p.canWidth"
                       alt=""
@@ -109,13 +109,13 @@
                 <div class="pyramid-row leftover">
                   @for (can of p.leftover; track $index) {
                     <img
-                      src="assets/carapils-small.png"
+                      [src]="'assets/' + selectedBeer().image + '-small.png'"
                       [style.filter]="selectedBeer().canFilter"
                       [style.width.px]="p.canWidth"
                       alt=""
                     />
                   }
-                  <span class="leftover-note carafont">for the next pyramid…</span>
+                  <span class="leftover-note carafont">voor de volgende piramide…</span>
                 </div>
               }
             </div>
@@ -126,7 +126,7 @@
                 <div class="pyramid-row">
                   @for (group of row; track group) {
                     <div class="digit-group">
-                      <img src="assets/carapils-small.png" [style.filter]="selectedBeer().canFilter" alt="" height="30" />
+                      <img [src]="'assets/' + selectedBeer().image + '-small.png'" [style.filter]="selectedBeer().canFilter" alt="" height="30" />
                       <span>x{{ format(group) }}</span>
                     </div>
                   }
@@ -143,7 +143,7 @@
         <a class="tip-jar" [href]="tipJarUrl" target="_blank" rel="noopener">
           <ion-button fill="clear" size="small">
             <ion-icon slot="start" name="beer"></ion-icon>
-            Buy me a Cara (€0.39)
+            Trakteer me een Cara (€0,39)
           </ion-button>
         </a>
         <div class="disclaimer">Bier met liefde gebrouwen, drink je met verstand.</div>

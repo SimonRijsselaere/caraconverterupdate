@@ -23,27 +23,30 @@ const DEFAULT_BEERS: Beer[] = [
     price: 0.39,
     nightshopPrice: 1.0,
     cratePrice: null,
+    image: 'carapils',
     canFilter: 'none',
   },
   {
     id: 'blond',
     name: 'Blond',
-    resultName: "Cara Blond's",
+    resultName: 'Cara Blondjes',
     abv: 8.5,
     price: 0.52,
     nightshopPrice: 1.3,
     cratePrice: null,
-    canFilter: 'sepia(0.5) saturate(1.6) brightness(1.08)',
+    image: 'carablond',
+    canFilter: 'none',
   },
   {
     id: 'rouge',
     name: 'Rouge',
-    resultName: "Cara Rouge's",
+    resultName: 'Cara Rouges',
     abv: 7.5,
     price: 0.69,
     nightshopPrice: 1.6,
     cratePrice: null,
-    canFilter: 'hue-rotate(-35deg) saturate(1.8)',
+    image: 'cararouge',
+    canFilter: 'none',
   },
   {
     id: 'zero',
@@ -53,7 +56,8 @@ const DEFAULT_BEERS: Beer[] = [
     price: 0.49,
     nightshopPrice: 1.2,
     cratePrice: null,
-    canFilter: 'grayscale(0.85) brightness(1.12)',
+    image: 'cara00',
+    canFilter: 'none',
   },
 ];
 
@@ -115,6 +119,10 @@ export class PriceService {
             : 0;
         const cratePrice =
           typeof b.cratePrice === 'number' ? price(b.cratePrice) : null;
+        // image becomes an <img src>, so restrict it to a bare asset slug and
+        // fall back to the pils can for anything unexpected.
+        const rawImage = text(b.image, 24) ?? '';
+        const image = /^[a-z0-9-]+$/.test(rawImage) ? rawImage : 'carapils';
         // Only allow the filter functions we actually use — this string ends
         // up in a style binding, so keep it on a tight leash.
         const rawFilter = text(b.canFilter, 120) ?? 'none';
@@ -123,7 +131,7 @@ export class PriceService {
         )
           ? rawFilter
           : 'none';
-        return { id, name, resultName, abv, price: canPrice, nightshopPrice, cratePrice, canFilter };
+        return { id, name, resultName, abv, price: canPrice, nightshopPrice, cratePrice, image, canFilter };
       })
       .filter((b): b is Beer => b !== null);
   }

@@ -1,7 +1,7 @@
 {
   "name": "CaraConverter",
   "short_name": "CaraConverter",
-  "description": "Convert your money into Cara Pils",
+  "description": "Reken je geld om naar Cara Pils",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

@@ -29,12 +29,12 @@ const BATHTUB_L = 150;
 
 const RANKS: { min: number; title: string }[] = [
   { min: 1000, title: 'Cara Baron 👑' },
-  { min: 240, title: 'Nightshop Nemesis' },
+  { min: 240, title: 'Nachtwinkel Baas' },
   { min: 100, title: 'Kotbaas' },
   { min: 48, title: 'Kotfeestje' },
   { min: 24, title: 'Bakske Vol' },
   { min: 12, title: 'Halve Bak' },
-  { min: 6, title: 'Sixpack Soldier' },
+  { min: 6, title: 'Sixpack Soldaat' },
   { min: 1, title: 'Proever' },
   { min: 0, title: 'Spaarvarken 😢' },
 ];
@@ -134,16 +134,16 @@ export class HomePage {
     const stats: string[] = [];
     const height = count * CAN_HEIGHT_M;
     if (height < MANNEKEN_PIS_M) {
-      stats.push(`stacked: ${Math.round(height * 100)} cm — Manneken Pis looks down on you`);
+      stats.push(`opgestapeld: ${Math.round(height * 100)} cm — Manneken Pis kijkt op je neer`);
     } else if (height < ATOMIUM_M) {
-      stats.push(`stacked: ${this.format(Math.round(height * 10) / 10)} m = ${this.format(Math.floor(height / MANNEKEN_PIS_M))}× Manneken Pis`);
+      stats.push(`opgestapeld: ${this.format(Math.round(height * 10) / 10)} m = ${this.format(Math.floor(height / MANNEKEN_PIS_M))}× Manneken Pis`);
     } else {
-      stats.push(`stacked: ${this.format(Math.round(height))} m = ${this.format(Math.round((height / ATOMIUM_M) * 10) / 10)}× the Atomium`);
+      stats.push(`opgestapeld: ${this.format(Math.round(height))} m = ${this.format(Math.round((height / ATOMIUM_M) * 10) / 10)}× het Atomium`);
     }
     const weight = count * CAN_WEIGHT_KG;
-    stats.push(`${this.format(weight < 10 ? Math.round(weight * 10) / 10 : Math.round(weight))} kg to carry home`);
+    stats.push(`${this.format(weight < 10 ? Math.round(weight * 10) / 10 : Math.round(weight))} kg om naar huis te sleuren`);
     if (litres >= BATHTUB_L / 2) {
-      stats.push(`${this.format(Math.round((litres / BATHTUB_L) * 10) / 10)} bathtubs of Cara`);
+      stats.push(`${this.format(Math.round((litres / BATHTUB_L) * 10) / 10)} badkuipen vol Cara`);
     }
     return stats;
   });
@@ -252,12 +252,12 @@ export class HomePage {
     const money = Number(raw.replace(',', '.'));
     if (!Number.isFinite(money) || money < 0) {
       this.amount.set(null);
-      this.inputError.set("that's not money 🤨");
+      this.inputError.set('dat is geen geld 🤨');
       return;
     }
     if (money > MAX_MONEY) {
       this.amount.set(null);
-      this.inputError.set('rustig aan, Cara Baron — max €1 billion. Even Colruyt has limits. 🍺');
+      this.inputError.set('rustig aan, Cara Baron — max €1 miljard. Zelfs Colruyt heeft grenzen. 🍺');
       return;
     }
     this.inputError.set(null);
@@ -289,7 +289,7 @@ export class HomePage {
     }
     const beerName = this.selectedBeer().resultName;
     const rank = this.rank();
-    const text = `💶 €${this.format(this.amount()!)} = ${this.format(count)} ${beerName} (${this.format(this.litres()!)}L) 🍺 Rank: ${rank} — Converted with CaraConverter`;
+    const text = `💶 €${this.format(this.amount()!)} = ${this.format(count)} ${beerName} (${this.format(this.litres()!)}L) 🍺 Rang: ${rank} — Omgerekend met CaraConverter`;
     try {
       await Share.share({ text });
     } catch {
@@ -297,7 +297,7 @@ export class HomePage {
       try {
         await navigator.clipboard.writeText(text);
         const toast = await this.toast.create({
-          message: 'Copied to clipboard!',
+          message: 'Gekopieerd naar klembord!',
           duration: 1500,
           position: 'bottom',
         });
