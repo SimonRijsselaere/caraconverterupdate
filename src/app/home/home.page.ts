@@ -83,6 +83,9 @@ export class HomePage {
     this.nightshop() ? this.selectedBeer().nightshopPrice : this.selectedBeer().price,
   );
 
+  /** Alcohol-free is a joke dead-end: no conversion, just judgement. */
+  readonly alcoholFree = computed(() => this.selectedBeer().abv === 0);
+
   readonly caraCount = computed(() => {
     const money = this.amount();
     if (money === null) {
@@ -276,6 +279,13 @@ export class HomePage {
   selectBeer(id: string | number | undefined) {
     if (typeof id === 'string') {
       this.selectedBeerId.set(id);
+      // The input is disabled for alcohol-free, so drop whatever was typed
+      // rather than leaving a stale result next to a dead input.
+      if (this.alcoholFree()) {
+        this.inputValue = '';
+        this.amount.set(null);
+        this.inputError.set(null);
+      }
     }
   }
 

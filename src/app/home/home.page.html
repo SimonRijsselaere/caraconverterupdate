@@ -43,10 +43,11 @@
           @if (nightshop()) {
             <ion-label class="carafont nightshop-label">Nachtwinkel-modus</ion-label>
           }
-          <ion-label class="carafont question">hoeveel geld heb je?</ion-label>
+          <ion-label class="carafont question">{{ alcoholFree() ? 'Doe normaal' : 'hoeveel geld heb je?' }}</ion-label>
           <ion-input
             [(ngModel)]="inputValue"
             (ngModelChange)="onMoneyInput()"
+            [disabled]="alcoholFree()"
             name="money"
             inputmode="decimal"
             clearInput="true"
