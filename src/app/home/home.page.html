@@ -6,17 +6,21 @@
     </ion-button>
   </div>
   <ion-grid class="body" fixed>
-    <ion-row>
-      <ion-col class="ion-text-center">
-        <img
-          class="hero-can"
-          [src]="'assets/' + selectedBeer().image + '.png'"
-          [style.filter]="selectedBeer().canFilter"
-          alt="Cara can"
-          width="110"
-        />
-      </ion-col>
-    </ion-row>
+    <!-- Hero can only in the empty state. Once there is a result the pyramid is
+         the hero, and this 183px image would just push it below the fold. -->
+    @if (caraCount() === null) {
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <img
+            class="hero-can"
+            [src]="'assets/' + selectedBeer().image + '.png'"
+            [style.filter]="selectedBeer().canFilter"
+            alt="Cara can"
+            width="110"
+          />
+        </ion-col>
+      </ion-row>
+    }
 
     <ion-row class="ion-justify-content-center ion-text-center">
       <ion-col size="12">
@@ -67,30 +71,9 @@
           @if (rank(); as r) {
             <div class="rank-badge carafont">{{ r }}</div>
           }
-          @if (crates(); as c) {
-            <div class="crate-line carafont">
-              = {{ format(c.crates) }} {{ c.crates === 1 ? 'bak' : 'bakken' }} van 24@if (c.loose > 0) { + {{ c.loose }} los}
-              @if (c.total > caraCount()!) {
-                ({{ format(c.total) }} blikjes in totaal — bakken zijn goedkoper!)
-              }
-            </div>
-          }
-          @if (gagStats().length > 0) {
-            <div class="gag-stats">
-              @for (stat of gagStats(); track stat) {
-                <div class="gag-stat">{{ stat }}</div>
-              }
-            </div>
-          }
-          <ion-button fill="outline" size="small" class="ion-margin-top" (click)="shareResult()">
-            <ion-icon slot="start" name="share-social"></ion-icon>
-            Deel
-          </ion-button>
-        </ion-col>
-      </ion-row>
 
-      <ion-row class="ion-justify-content-center ion-text-center">
-        <ion-col size="12">
+          <!-- The pyramid is the payoff, so it sits directly under the number,
+               ahead of the secondary crate/gag text and the share action. -->
           @if (pyramid(); as p) {
             <div class="pyramid">
               @for (row of p.rows; track $index) {
@@ -134,6 +117,26 @@
               }
             </div>
           }
+
+          @if (crates(); as c) {
+            <div class="crate-line carafont">
+              = {{ format(c.crates) }} {{ c.crates === 1 ? 'bak' : 'bakken' }} van 24@if (c.loose > 0) { + {{ c.loose }} los}
+              @if (c.total > caraCount()!) {
+                ({{ format(c.total) }} blikjes in totaal — bakken zijn goedkoper!)
+              }
+            </div>
+          }
+          @if (gagStats().length > 0) {
+            <div class="gag-stats">
+              @for (stat of gagStats(); track stat) {
+                <div class="gag-stat">{{ stat }}</div>
+              }
+            </div>
+          }
+          <ion-button fill="outline" size="small" class="ion-margin-top" (click)="shareResult()">
+            <ion-icon slot="start" name="share-social"></ion-icon>
+            Deel
+          </ion-button>
         </ion-col>
       </ion-row>
     }
