@@ -58,8 +58,27 @@ ion-content {
   font-size: 2.5em;
 }
 
+/* The hero shrinks and fades out as the pyramid takes over as the hero image.
+   max-height (not height) keeps it robust if the art size ever changes; 200px
+   is just above its natural ~193px so there is no dead time in the animation. */
+.hero-row {
+  overflow: hidden;
+  max-height: 200px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.22s ease;
+
+  &.collapsed {
+    max-height: 0;
+    opacity: 0;
+
+    .hero-can {
+      transform: scale(0.55) translateY(-12px);
+    }
+  }
+}
+
 .hero-can {
-  transition: filter 0.3s ease;
+  transition: filter 0.3s ease, transform 0.3s ease;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
 }
 
@@ -156,6 +175,19 @@ ion-input {
   align-items: center;
   margin-top: 14px;
   padding-bottom: 8px;
+  animation: pyramid-in 0.35s ease both;
+}
+
+/* Pyramid rises in as the hero collapses, so the two read as one handoff. */
+@keyframes pyramid-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .pyramid-row {
@@ -214,5 +246,14 @@ ion-content.nightshop {
 
   ion-input {
     background: #1a1813;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-row,
+  .hero-can,
+  .pyramid {
+    transition: none;
+    animation: none;
   }
 }

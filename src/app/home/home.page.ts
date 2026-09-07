@@ -211,7 +211,8 @@ export class HomePage {
     if (!content) {
       return;
     }
-    // Let Angular render the result row before we measure it.
+    // Wait for Angular to render the result AND for the 0.3s hero collapse to
+    // finish, otherwise we would measure a layout that is still shrinking.
     setTimeout(async () => {
       const banner = document.querySelector('.result-banner');
       if (!banner) {
@@ -231,7 +232,7 @@ export class HomePage {
       // is a no-op on Ionic's scroll element in some webviews; an instant
       // scrollTop assignment is reliable everywhere.
       scrollEl.scrollTop = Math.max(0, scrollEl.scrollTop + topInView - HEADER);
-    }, 80);
+    }, 340);
   }
 
   format(value: number): string {

@@ -6,21 +6,20 @@
     </ion-button>
   </div>
   <ion-grid class="body" fixed>
-    <!-- Hero can only in the empty state. Once there is a result the pyramid is
-         the hero, and this 183px image would just push it below the fold. -->
-    @if (caraCount() === null) {
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <img
-            class="hero-can"
-            [src]="'assets/' + selectedBeer().image + '.png'"
-            [style.filter]="selectedBeer().canFilter"
-            alt="Cara can"
-            width="110"
-          />
-        </ion-col>
-      </ion-row>
-    }
+    <!-- Hero can collapses once there is a result: the pyramid becomes the hero,
+         and this 183px image would otherwise push it below the fold. Kept in the
+         DOM rather than behind @if so the collapse can animate instead of jump. -->
+    <ion-row class="hero-row" [class.collapsed]="caraCount() !== null">
+      <ion-col class="ion-text-center">
+        <img
+          class="hero-can"
+          [src]="'assets/' + selectedBeer().image + '.png'"
+          [style.filter]="selectedBeer().canFilter"
+          alt="Cara can"
+          width="110"
+        />
+      </ion-col>
+    </ion-row>
 
     <ion-row class="ion-justify-content-center ion-text-center">
       <ion-col size="12">
