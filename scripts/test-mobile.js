@@ -184,8 +184,14 @@ const parseRGB = (s) => (String(s).match(/\d+/g) || []).slice(0, 3).map(Number);
     const inp = document.querySelector('input');
     const imgs = Array.prototype.slice.call(document.querySelectorAll('img'));
     const noAlt = imgs.filter((i) => i.getAttribute('alt') === null).length;
+    // Ionic forwards aria-label onto the inner shadow-DOM <button>, so the host
+    // often has none. Check both before calling a button unnamed.
     const unnamed = Array.prototype.slice.call(document.querySelectorAll('ion-button'))
-      .filter((b) => !(b.getAttribute('aria-label') || b.textContent.trim())).length;
+      .filter((b) => {
+        const inner = b.shadowRoot ? b.shadowRoot.querySelector('button') : null;
+        return !(b.getAttribute('aria-label') || b.textContent.trim() ||
+                 (inner && inner.getAttribute('aria-label')));
+      }).length;
     const bgOf = (el) => {
       let n = el;
       while (n) {
@@ -219,6 +225,31 @@ const parseRGB = (s) => (String(s).match(/\d+/g) || []).slice(0, 3).map(Number);
     rec('G. Contrast', f.sel + ' (' + f.fontSize + ', opacity ' + f.opacity + ')', ratio >= need,
       ratio.toFixed(2) + ':1, WCAG AA needs ' + need + ':1');
   }
+
+  // K. stylesheet + fonts actually apply (regression guard for the CSP bug:
+  // inlineCritical emitted <link media="print" onload="this.media='all'"> and the
+  // strict CSP blocked the onload, leaving every global rule and @font-face inert)
+  const assets = await page.evaluate(async () => {
+    await document.fonts.ready;
+    const link = document.querySelector('link[rel="stylesheet"]');
+    // NB: document.fonts is a FontFaceSet (a Set), so slice.call() on it yields
+    // [] and quietly fails. Use forEach / check() instead.
+    const faces = [];
+    document.fonts.forEach((f) => faces.push(f.family.replace(/['"]/g, '') + ':' + f.status));
+    return {
+      media: link ? link.getAttribute('media') : null,
+      inlineHandlers: document.querySelectorAll('[onload],[onclick],[onerror]').length,
+      fontCount: document.fonts.size,
+      faces: faces.join(', '),
+      carafont: document.fonts.check('16px Carafont'),
+    };
+  });
+  rec('K. Styles', 'global stylesheet applies to screen (not media=print)',
+    assets.media === null || assets.media === 'all', 'media=' + assets.media);
+  rec('K. Styles', 'no inline event handlers for the CSP to block',
+    assets.inlineHandlers === 0, assets.inlineHandlers + ' inline handlers');
+  rec('K. Styles', 'Carafont actually loads', assets.carafont === true,
+    'fontFaces=' + assets.fontCount + ' [' + assets.faces + ']');
 
   // I. landscape
   await page.setViewportSize({ width: 844, height: 390 });
