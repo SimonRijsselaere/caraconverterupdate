@@ -230,6 +230,28 @@ ion-input {
   text-decoration: none;
 }
 
+/* Touch targets. Apple HIG wants 44x44, Android Material 48dp. Measured on a
+   real device pass these were: header toggle 40x40, share 81x30, tip jar
+   262x27 — all under the minimum and easy to mis-tap. */
+.app-header ion-button {
+  min-width: 48px;
+  min-height: 48px;
+
+  &::part(native) {
+    min-width: 48px;
+    min-height: 48px;
+  }
+}
+
+.result-row ion-button,
+.tip-jar ion-button {
+  min-height: 44px;
+
+  &::part(native) {
+    min-height: 44px;
+  }
+}
+
 .disclaimer {
   font-size: 0.7em;
   opacity: 0.55;
