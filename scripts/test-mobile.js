@@ -110,12 +110,12 @@ const parseRGB = (s) => (String(s).match(/\d+/g) || []).slice(0, 3).map(Number);
   await enter(page, '20');
   await selectBeer(page, '0.0');
   const zero = await page.evaluate(() => {
-    const q = document.querySelector('.question');
+    const q = document.querySelector('input');
     const inp = document.querySelector('input');
     const ion = document.querySelector('ion-input');
     const cs = getComputedStyle(ion);
     return {
-      label: q ? q.textContent.trim() : null,
+      label: q ? q.getAttribute('placeholder') : null,
       disabled: inp ? inp.disabled : null,
       opacity: parseFloat(cs.opacity),
       bg: cs.backgroundColor,
@@ -123,7 +123,7 @@ const parseRGB = (s) => (String(s).match(/\d+/g) || []).slice(0, 3).map(Number);
       resultShown: !!document.querySelector('.result-banner'),
     };
   });
-  rec('D. Alcohol-free', 'prompt says "Doe normaal"', zero.label === 'Doe normaal', 'got "' + zero.label + '"');
+  rec('D. Alcohol-free', 'disabled field shows "Doe normaal"', zero.label === 'Doe normaal', 'got "' + zero.label + '"');
   rec('D. Alcohol-free', 'input disabled', zero.disabled === true, 'disabled=' + zero.disabled);
   rec('D. Alcohol-free', 'input visibly greyed', zero.opacity < 1 || zero.bg !== 'rgb(255, 255, 255)',
     'opacity=' + zero.opacity + ' bg=' + zero.bg);

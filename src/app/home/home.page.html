@@ -43,15 +43,11 @@
           @if (nightshop()) {
             <ion-label class="carafont nightshop-label">Nachtwinkel-modus</ion-label>
           }
-          <!-- No prompt in the normal state: the euro icon and the input say it
-               already. The label survives only as the alcohol-free rebuke. -->
-          @if (alcoholFree()) {
-            <ion-label class="carafont question is-disabled">Doe normaal</ion-label>
-          }
           <ion-input
             [(ngModel)]="inputValue"
             (ngModelChange)="onMoneyInput()"
             [disabled]="alcoholFree()"
+            [placeholder]="alcoholFree() ? 'Doe normaal' : ''"
             name="money"
             inputmode="decimal"
             clearInput="true"

@@ -122,8 +122,14 @@ ion-input {
   &[disabled] {
     background: #e9e3d4;
     border-color: rgba(167, 150, 94, 0.25);
-    opacity: 0.6;
+    opacity: 0.7;
     cursor: not-allowed;
+    /* The "Doe normaal" rebuke lives in the placeholder now, so it has to stay
+       readable even though the field reads as inert. */
+    --placeholder-color: #34302a;
+    --placeholder-opacity: 1;
+    font-family: Carafont;
+    font-size: 1.25em;
   }
 }
 
@@ -288,6 +294,8 @@ ion-content.nightshop {
     &[disabled] {
       background: #24211a;
       border-color: rgba(167, 150, 94, 0.2);
+      --placeholder-color: #efe9d8;
+      --placeholder-opacity: 1;
     }
   }
 }
