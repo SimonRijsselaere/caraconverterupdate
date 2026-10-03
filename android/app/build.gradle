@@ -7,8 +7,11 @@ android {
         applicationId "be.simon.caraconverter"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.0.2"
+        // Play rejects a versionCode that was ever uploaded, even to a draft that
+        // was later discarded. CI passes the workflow run number so it always
+        // climbs and can never collide; the literal is only for local builds.
+        versionCode project.hasProperty('versionCodeOverride') ? project.versionCodeOverride.toInteger() : 4
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
