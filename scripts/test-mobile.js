@@ -285,6 +285,29 @@ const parseRGB = (s) => (String(s).match(/\d+/g) || []).slice(0, 3).map(Number);
     rec('J. PWA', 'app still works with no network', false, 'SW not controlling page, offline not verifiable');
   }
 
+  // L. preferences survive a relaunch (localStorage)
+  await page.goto(SITE, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(800);
+  await selectBeer(page, 'Rouge');
+  await page.locator('.app-header ion-button').first().click();   // nightshop on
+  await page.waitForTimeout(600);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  const restored = await page.evaluate(() => {
+    const active = document.querySelector('ion-segment-button.segment-button-checked');
+    return {
+      beer: active ? active.textContent.replace(/\s+/g, ' ').trim() : null,
+      night: !!document.querySelector('.nightshop-label'),
+      stored: localStorage.getItem('caraconverter.prefs'),
+    };
+  });
+  rec('L. Preferences', 'beer choice survives relaunch',
+    /Rouge/i.test(String(restored.beer)), 'restored tab=' + restored.beer);
+  rec('L. Preferences', 'nightshop mode survives relaunch', restored.night === true,
+    'nightshop label present=' + restored.night + ' stored=' + restored.stored);
+  // leave the profile clean for the next run
+  await page.evaluate(() => { try { localStorage.clear(); } catch (e) {} });
+
   await browser.close();
 
   const bySuite = {};
