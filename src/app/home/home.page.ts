@@ -42,6 +42,30 @@ const RANKS: { min: number; title: string }[] = [
 /** Your Ko-fi / PayPal page — the "Buy me a Cara" button links here. */
 const TIP_JAR_URL = 'https://ko-fi.com/caraconverter';
 
+/** Shared results link back here, so a share can turn into a new user. */
+const APP_URL = 'https://simonrijsselaere.github.io/caraconverterupdate/';
+
+/** Last picked beer + nightshop mode, so reopening the app lands where you left. */
+const PREFS_KEY = 'caraconverter.prefs';
+
+function restorePrefs(): { beer: string; night: boolean } {
+  try {
+    const raw = localStorage.getItem(PREFS_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      return {
+        beer: typeof p?.beer === 'string' ? p.beer : 'pils',
+        night: p?.night === true,
+      };
+    }
+  } catch {
+    // Private mode or disabled storage: fall through to defaults.
+  }
+  return { beer: 'pils', night: false };
+}
+
+const PREFS = restorePrefs();
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -68,8 +92,8 @@ export class HomePage {
 
   inputValue = '';
   readonly beers = this.prices.beers;
-  readonly selectedBeerId = signal('pils');
-  readonly nightshop = signal(false);
+  readonly selectedBeerId = signal(PREFS.beer);
+  readonly nightshop = signal(PREFS.night);
   readonly amount = signal<number | null>(null);
   readonly inputError = signal<string | null>(null);
 
@@ -196,6 +220,15 @@ export class HomePage {
     // (onMoneyInput) renders the result below the input, where it sits under the
     // keyboard on phones. Fire only on the no-result → result transition so it
     // doesn't yank the page on every keystroke once the result is already showing.
+    effect(() => {
+      const prefs = { beer: this.selectedBeerId(), night: this.nightshop() };
+      try {
+        localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+      } catch {
+        // Storage unavailable: preferences just won't persist.
+      }
+    });
+
     let hadResult = false;
     effect(() => {
       const hasResult = this.caraCount() !== null;
@@ -302,11 +335,13 @@ export class HomePage {
     const rank = this.rank();
     const text = `💶 €${this.format(this.amount()!)} = ${this.format(count)} ${beerName} (${this.format(this.litres()!)}L) 🍺 Rang: ${rank} — Omgerekend met CaraConverter`;
     try {
-      await Share.share({ text });
+      // Pass url separately so the OS renders it as a proper link; Android
+      // appends it to the text itself, so don't bake it in twice.
+      await Share.share({ text, url: APP_URL });
     } catch {
       // Share dialog unavailable (or dismissed): copy to clipboard instead.
       try {
-        await navigator.clipboard.writeText(text);
+        await navigator.clipboard.writeText(`${text} ${APP_URL}`);
         const toast = await this.toast.create({
           message: 'Gekopieerd naar klembord!',
           duration: 1500,
